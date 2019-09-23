@@ -36,15 +36,15 @@ class ServiceProvider extends LaravelServiceProvider
     {
         $this->app->singleton(InfluxDB::class, function($app) {
             $client = new InfluxClient(
-                config('influxdb.host'),
-                config('influxdb.port'),
-                config('influxdb.username'),
-                config('influxdb.password'),
-                config('influxdb.ssl'),
-                config('influxdb.verifySSL'),
-                config('influxdb.timeout')
+                $this->app['config']->get('influxdb.host'),
+                $this->app['config']->get('influxdb.port'),
+                $this->app['config']->get('influxdb.username'),
+                $this->app['config']->get('influxdb.password'),
+                $this->app['config']->get('influxdb.ssl'),
+                $this->app['config']->get('influxdb.verifySSL'),
+                $this->app['config']->get('influxdb.timeout')
             );
-            return $client->selectDB(config('influxdb.dbname'));
+            return $client->selectDB($this->app['config']->get('influxdb.dbname'));
         });
     }
 
